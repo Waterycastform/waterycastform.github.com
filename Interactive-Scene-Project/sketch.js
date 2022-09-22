@@ -7,7 +7,7 @@
 
 let palace;
 
-function preLoad() {
+function preload() {
   palace = loadImage("Buckingham.jpg");
 }
 
@@ -21,5 +21,5 @@ function draw() {
 }
 
 function openScreen () {
-  image(palace, 0, 0);
+  image(palace, 0, 0, windowWidth, windowHeight);
 }
