@@ -13,13 +13,13 @@ function preLoad() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  openScreen();
 }
 
 function draw() {
   background(220);
+  openScreen();
 }
 
 function openScreen () {
-  Image (palace, windowWidth, windowHeight);
+  image(palace, 0, 0);
 }
