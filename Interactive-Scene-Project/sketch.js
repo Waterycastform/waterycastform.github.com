@@ -6,6 +6,8 @@
 // - describe what you did to take this project "above and beyond"
 
 let palace;
+let button = false;
+let state = "menu";
 
 function preload() {
   palace = loadImage("Buckingham.jpg");
