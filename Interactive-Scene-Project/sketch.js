@@ -6,7 +6,6 @@
 // - describe what you did to take this project "above and beyond"
 
 let palace;
-let button = false;
 let state = "menu";
 
 function preload() {
@@ -19,9 +18,13 @@ function setup() {
 
 function draw() {
   background(220);
-  openScreen();
+  if (state === "menu") {
+    openScreen();
+  }
 }
 
 function openScreen () {
   image(palace, 0, 0, windowWidth, windowHeight);
+  fill ("black");
+  rect(400, 600, width - 400, height - 200);
 }
