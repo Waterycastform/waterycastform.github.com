@@ -14,6 +14,9 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  textAlign(CENTER, CENTER);
+  
 }
 
 function draw() {
@@ -25,6 +28,12 @@ function draw() {
 
 function openScreen () {
   image(palace, 0, 0, windowWidth, windowHeight);
-  fill ("black");
-  rect(400, 600, width - 400, height - 200);
+  fill (200, 100, 200, 150);
+  strokeWeight(4);
+  rect(windowWidth/2, windowHeight*0.75, windowWidth/2, windowHeight*0.15, 20);
+  fill("black");
+  textSize( (windowHeight+windowWidth)/40);
+  textStyle(BOLD);
+  text("New Monarch!", windowWidth/2, windowHeight*0.75);
+
 }
