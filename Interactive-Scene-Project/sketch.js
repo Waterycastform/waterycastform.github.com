@@ -27,7 +27,7 @@ function draw() {
 }
 
 function mousePressed(){
-  if (state === "menu" && mouseInButton (windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+  if (state === "menu" && mouseInButton (width/4, width*0.75, height*0.675, height*0.825)){
     state = "game";
   }
 }
@@ -39,23 +39,23 @@ function mouseInButton (left, right, top, bottom){
 }
 
 function openScreen () {
-  image(palace, 0, 0, windowWidth, windowHeight);
-  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+  image(palace, 0, 0, width, height);
+  if (mouseInButton(width/4, width*0.75, height*0.675, height*0.825)){
     fill (200, 100, 200,);
   }
   else {
     fill (200, 100, 200, 150);
   }
   strokeWeight(4);
-  rect(windowWidth/2, windowHeight*0.75, windowWidth/2, windowHeight*0.15, 20);
-  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+  rect(width/2, height*0.75, width/2, height*0.15, 20);
+  if (mouseInButton(width/4, width*0.75, height*0.675, height*0.825)){
     fill ("black");
   }
   else {
     fill (50, 50, 50);
   }
-  textSize( (windowHeight+windowWidth)/40);
+  textSize( (height+width)/40);
   textStyle(BOLD);
-  text("New Monarch!", windowWidth/2, windowHeight*0.75);
+  text("New Monarch!", width/2, height*0.75);
 
 }
