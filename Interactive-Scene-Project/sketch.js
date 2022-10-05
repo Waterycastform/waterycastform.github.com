@@ -26,12 +26,34 @@ function draw() {
   }
 }
 
+function mousePressed(){
+  if (state === "menu" && mouseInButton (windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+    state = "game";
+  }
+}
+
+
+
+function mouseInButton (left, right, top, bottom){
+  return mouseX >= left && mouseX <= right && mouseY >= top && mouseY <= bottom;
+}
+
 function openScreen () {
   image(palace, 0, 0, windowWidth, windowHeight);
-  fill (200, 100, 200, 150);
+  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+    fill (200, 100, 200,);
+  }
+  else {
+    fill (200, 100, 200, 150);
+  }
   strokeWeight(4);
   rect(windowWidth/2, windowHeight*0.75, windowWidth/2, windowHeight*0.15, 20);
-  fill("black");
+  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+    fill ("black");
+  }
+  else {
+    fill (50, 50, 50);
+  }
   textSize( (windowHeight+windowWidth)/40);
   textStyle(BOLD);
   text("New Monarch!", windowWidth/2, windowHeight*0.75);
