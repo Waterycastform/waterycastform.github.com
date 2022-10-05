@@ -32,8 +32,6 @@ function mousePressed(){
   }
 }
 
-
-
 function mouseInButton (left, right, top, bottom){
   return mouseX >= left && mouseX <= right && mouseY >= top && mouseY <= bottom;
 }
