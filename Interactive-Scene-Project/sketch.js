@@ -23,7 +23,12 @@ function draw() {
   background(220);
   if (state === "menu") {
     openScreen();
+    openText();
   }
+  if (state === "game") {
+    gameScreen();
+  }
+
 }
 
 function mousePressed(){
@@ -55,5 +60,11 @@ function openScreen () {
   textSize( (height+width)/40);
   textStyle(BOLD);
   text("New Monarch!", width/2, height*0.75);
+
+  
+
+}
+
+function gameScreen() {
 
 }
