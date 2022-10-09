@@ -60,11 +60,8 @@ function openScreen () {
   textSize( (height+width)/40);
   textStyle(BOLD);
   text("New Monarch!", width/2, height*0.75);
-
-  
-
 }
 
-function gameScreen() {
+// function gameScreen() {
 
-}
+//}
