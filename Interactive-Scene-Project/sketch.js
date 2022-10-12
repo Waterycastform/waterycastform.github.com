@@ -12,6 +12,13 @@ let interior;
 let windsor;
 let balmoral;
 let state = "menu";
+let scalar = 0.75;
+let imgSpeed = 5;
+let pos = 500;
+let q1;
+let q2;
+let q3;
+let q4;
 // let hit = false;
 // let theColor;
 
@@ -22,13 +29,16 @@ function preload() {
   interior = loadImage("palaceinside-s3.png");
   windsor = loadImage("windsor-s4.jpg");
   balmoral = loadImage("balmoral-s5.jpg");
+  q1 = loadImage("earlyq-1.png");
+  q2 = loadImage("qcoron-2.png");
+  q3 = loadImage("qjub-3.png");
+  q4 = loadImage("qscot-4.png");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
-  
 }
 
 function draw() {
@@ -71,14 +81,15 @@ function openScreen () { //start screen
   textSize( (windowHeight+windowWidth)/40);
   textStyle(BOLD);
   text("New Monarch!", windowWidth/2, windowHeight*0.75);
-
-
 }
 
 function gameScreen() {
+  movingKeys();
+  image(windsor, 0, 0, windowWidth, windowHeight);
   rectMode(CORNER);
-  fill ("black");
+  fill (165,165,140);
   rect(0, windowHeight*0.9, windowWidth, windowHeight*0.1);
+  image(q4, pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
  
 //   background(255);
 //   rect(200, 200, 100, 150);
@@ -94,4 +105,17 @@ function gameScreen() {
 //   }
 //   stroke(theColor);
 //   print("colliding?", hit);
+}
+
+function movingKeys() {
+  if (keyIsDown(68)) {
+    if (pos+q1.width <=  windowWidth) {
+      pos += imgSpeed;
+    }
+  }
+  if (keyIsDown(65)) {
+    if (pos >= 0) {
+      pos -= imgSpeed;
+    }
+  }
 }
