@@ -5,14 +5,15 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+// setting up all variables
 let palace, sandringham, westminister, interior, windsor, balmoral, q1, q2, q3, q4, corgie, place, queen, parts;
 let state = "menu";
 let scalar = 0.75;
 let imgSpeed = 5;
-let pos = 500;
+let pos = 750;
 let corgieXArray = [];
 let corgieYArray = [];
-let y ;
+let y =0;
 let passedTime;
 let countedTime;
 // let hit = false;
@@ -29,7 +30,7 @@ function preload() { // loading images
   q2 = loadImage("qcoron-2.png");
   q3 = loadImage("qjub-3.png");
   q4 = loadImage("qscot-4.png");
-  corgie = loadImage("qcorgs.png")
+  corgie = loadImage("qcorgs.png");
 }
 
 function setup() {
@@ -94,25 +95,25 @@ function gameTimer() {
   stroke(255, 204, 0);
   fill(200, 100, 200,);
   rect(0, 0, windowWidth/8, windowHeight/10);
-  currentTime = millis() - passedTime;
+  countedTime = millis() - passedTime;
   fill("black");
-  textSize(windowWidth/35)
-  text("Age : " + int(currentTime/1000), 0, windowHeight/12);
+  textSize(windowWidth/35);
+  text("Age : " + int(countedTime/1000), 0, windowHeight/12);
 }
 
 function imageStates() {
-  currentTime = millis() - passedTime;
-  if (int(currentTime/1000) <= 25){
+  countedTime = millis() - passedTime;
+  if (int(countedTime/1000) <= 25){
     queen = q1;
     place = sandringham;
     return [queen, place];
   }
-  else if (int(currentTime/1000) <= 50){
+  else if (int(countedTime/1000) <= 50){
     queen = q2;
     place = westminister;
     return [queen, place]; 
   }
-  else if (int(currentTime/1000) <= 75){
+  else if (int(countedTime/1000) <= 75){
     queen = q3;
     place = interior;
     return [queen, place];
@@ -120,7 +121,7 @@ function imageStates() {
   else{
     queen = q4;
     place = windsor;
-    return [queen, place];ad
+    return [queen, place];
   }
 }
 
@@ -134,7 +135,10 @@ function gameScreen() {
   fill (165,165,140);
   rect(0, windowHeight*0.9, windowWidth, windowHeight*0.1);
   image(parts[0], pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
-  if (millis()/1000 >= 97){
+  if (countedTime/1000 <= 97) {
+    randomCorgie();
+  }
+  if (countedTime/1000 >= 97){
     state = "end";
   }
  
@@ -167,10 +171,6 @@ function movingKeys() { //character moving
   }
 }
 
-function mouseClicked(){
-  randomCorgie;
-}
-
 
 function fallingCorgis() {
   y+=5;
@@ -189,5 +189,4 @@ function fallingCorgis() {
 function randomCorgie() {
   corgieXArray.push(random(0,windowWidth));
   corgieYArray.push(y-40);
-  console.log(y)
 }
