@@ -33,6 +33,7 @@ function preload() { // loading images
   corgie = loadImage("qcorgs.png");
 }
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
@@ -41,7 +42,9 @@ function setup() {
 
 function draw() {
   background(220);
-  if (state === "menu") { //changing states for game screens
+
+  //changing states for game screens
+  if (state === "menu") { 
     openScreen();
   }
   if (state === "game") {
@@ -53,19 +56,25 @@ function draw() {
 
 }
 
+
 function mousePressed(){ // clicking mouse in button
   if (state === "menu" && mouseInButton (windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
     state = "game";
   }
 }
 
+
 function mouseInButton (left, right, top, bottom){ //is mouse in button check
   return mouseX >= left && mouseX <= right && mouseY >= top && mouseY <= bottom;
 }
 
+
 function openScreen () { //start screen 
   image(palace, 0, 0, windowWidth, windowHeight);
-  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+
+
+  // button highlights when mouse is over it
+  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){ 
     fill (200, 100, 200,);
   }
   else {
@@ -73,7 +82,10 @@ function openScreen () { //start screen
   }
   strokeWeight(4);
   rect(windowWidth/2, windowHeight*0.75, windowWidth/2, windowHeight*0.15, 20);
-  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
+
+
+  // changine text color when mouse hovers
+  if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){ 
     fill ("gold");
   }
   else {
@@ -82,26 +94,36 @@ function openScreen () { //start screen
   textSize( (windowHeight+windowWidth)/40);
   textStyle(BOLD);
   text("New Monarch!", windowWidth/2, windowHeight*0.75);
-  fill (265, 185, 20);
+
+
+  // screen title
+  fill (265, 185, 20); 
   textSize(windowWidth/15);
   text("The Queen's Corgis", windowWidth/2, windowHeight/4);
-  passedTime = millis();
+
+  // counting the millis past for game screen timer
+  passedTime = millis(); 
   return passedTime;
 }
 
-function gameTimer() { 
+
+function gameTimer() { // making the age counter/timer for the game screen
+  // timer box
   rectMode(CORNER);
   textAlign(LEFT, BOTTOM);
   stroke(255, 204, 0);
   fill(200, 100, 200,);
   rect(0, 0, windowWidth/8, windowHeight/10);
-  countedTime = millis() - passedTime;
+
+  // printing time/age elapsed after game starts
   fill("black");
+  countedTime = millis() - passedTime;
   textSize(windowWidth/35);
   text("Age : " + int(countedTime/1000), 0, windowHeight/12);
 }
 
-function imageStates() {
+
+function imageStates() { //backround and charater images change after certain age/time
   countedTime = millis() - passedTime;
   if (int(countedTime/1000) <= 25){
     queen = q1;
@@ -125,19 +147,26 @@ function imageStates() {
   }
 }
 
+
 function gameScreen() {
+  //calling funtions
   parts = imageStates();
   gameTimer();
   movingKeys();
+
+  //displaying images
   image(parts[1], 0, 0, windowWidth, windowHeight);
+  image(parts[0], pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
+
+  //game floor
   rectMode(CORNER);
   stroke(65,65,40);
   fill (165,165,140);
   rect(0, windowHeight*0.9, windowWidth, windowHeight*0.1);
-  image(parts[0], pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
-  if (countedTime/1000 <= 97) {
-    randomCorgie();
-  }
+
+  randomCorgie();
+
+  // ending game after death age
   if (countedTime/1000 >= 97){
     state = "end";
   }
@@ -158,7 +187,7 @@ function gameScreen() {
 //   print("colliding?", hit);
 }
 
-function movingKeys() { //character moving
+function movingKeys() { //character moving with keys
   if (keyIsDown(68)) {
     if (pos+q1.width <=  windowWidth) {
       pos += imgSpeed;
@@ -172,7 +201,7 @@ function movingKeys() { //character moving
 }
 
 
-function fallingCorgis() {
+function fallingCorgis() { // CREDIT TO BEN S., makes the corgis fall
   y+=5;
   for (let i = corgieXArray.length; i > 0; i --){
     let corgiex = corgieXArray[i-1];
@@ -186,7 +215,7 @@ function fallingCorgis() {
   }
 }
 
-function randomCorgie() {
+function randomCorgie() { // CREDIT TO BEN S., creates corgis in the array
   corgieXArray.push(random(0,windowWidth));
   corgieYArray.push(y-40);
 }
