@@ -6,18 +6,16 @@
 // - describe what you did to take this project "above and beyond"
 
 // setting up all variables
-let palace, sandringham, westminister, interior, windsor, balmoral, q1, q2, q3, q4, corgie, place, queen, parts;
+let palace, sandringham, westminister, interior, windsor, balmoral, q1, q2, q3, q4, corgie, place, queen, r, g, b, parts, pos, passedTime, countedTime, someTime, corgiex, corgiey;
 let state = "menu";
 let scalar = 0.75;
-let imgSpeed = 5;
-let pos = 750;
+let imgSpeed = 7;
 let corgieXArray = [];
 let corgieYArray = [];
 let y =0;
-let passedTime;
-let countedTime;
-// let hit = false;
-// let theColor;
+let dropCorgie = false;
+let hit = false;
+let score = 0;
 
 function preload() { // loading images
   palace = loadImage("Buckingham.jpg");
@@ -31,10 +29,13 @@ function preload() { // loading images
   q3 = loadImage("qjub-3.png");
   q4 = loadImage("qscot-4.png");
   corgie = loadImage("qcorgs.png");
+  bark = loadSound("bark.mp3");
 }
 
 
 function setup() {
+  someTime = random(200, 1500);
+  pos = windowWidth/2;
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
@@ -52,10 +53,14 @@ function draw() {
     fallingCorgis();
     gameTimer();
     imageStates();
+    catchCorgie();
+    scoreCount();
+  }
+  if (state === "end") {
+    endScreen();
   }
 
 }
-
 
 function mousePressed(){ // clicking mouse in button
   if (state === "menu" && mouseInButton (windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){
@@ -71,7 +76,6 @@ function mouseInButton (left, right, top, bottom){ //is mouse in button check
 
 function openScreen () { //start screen 
   image(palace, 0, 0, windowWidth, windowHeight);
-
 
   // button highlights when mouse is over it
   if (mouseInButton(windowWidth/4, windowWidth*0.75, windowHeight*0.675, windowHeight*0.825)){ 
@@ -112,14 +116,26 @@ function gameTimer() { // making the age counter/timer for the game screen
   rectMode(CORNER);
   textAlign(LEFT, BOTTOM);
   stroke(255, 204, 0);
-  fill(200, 100, 200,);
+  fill(200, 100, 200);
   rect(0, 0, windowWidth/8, windowHeight/10);
 
   // printing time/age elapsed after game starts
   fill("black");
   countedTime = millis() - passedTime;
   textSize(windowWidth/35);
-  text("Age : " + int(countedTime/1000), 0, windowHeight/12);
+  text("Age: " + int(countedTime/1000), windowWidth*0.01, windowHeight/12);
+}
+
+function scoreCount(){
+  // score box
+  fill(200, 100, 200);
+  stroke(255, 204, 0);
+  rect(windowWidth*0.8, 0, windowWidth*0.8, windowHeight/10);
+  
+  // printing score
+  fill("black");
+  textSize(windowWidth/35);
+  text("Corgies: " + score, windowWidth*0.82, windowHeight/12);
 }
 
 
@@ -128,22 +144,34 @@ function imageStates() { //backround and charater images change after certain ag
   if (int(countedTime/1000) <= 25){
     queen = q1;
     place = sandringham;
-    return [queen, place];
+    r = 140;
+    g = 190;
+    b = 90;
+    return [queen, place, r, g, b];
   }
   else if (int(countedTime/1000) <= 50){
     queen = q2;
     place = westminister;
-    return [queen, place]; 
+    r = 180;
+    g = 170;
+    b = 100;
+    return [queen, place, r, g, b]; 
   }
   else if (int(countedTime/1000) <= 75){
     queen = q3;
     place = interior;
-    return [queen, place];
+    r = 140;
+    g = 20;
+    b = 20;
+    return [queen, place, r, g, b];
   }
   else{
     queen = q4;
     place = windsor;
-    return [queen, place];
+    r = 130;
+    g = 140;
+    b = 150;
+    return [queen, place, r, g, b];
   }
 }
 
@@ -157,34 +185,28 @@ function gameScreen() {
   //displaying images
   image(parts[1], 0, 0, windowWidth, windowHeight);
   image(parts[0], pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
+  fill(0,0);
+  noStroke();
+  rect(pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
 
   //game floor
   rectMode(CORNER);
   stroke(65,65,40);
-  fill (165,165,140);
+  fill (parts[2], parts[3], parts[4]);
   rect(0, windowHeight*0.9, windowWidth, windowHeight*0.1);
 
-  randomCorgie();
+  //corgis falling after some time
+  countedTime = millis() - passedTime;
+  if (countedTime > someTime){
+    randomCorgie();
+    someTime = countedTime + random(200, 1500);
+  }
 
   // ending game after death age
   if (countedTime/1000 >= 97){
     state = "end";
   }
  
-//   background(255);
-//   rect(200, 200, 100, 150);
-//   rect(mouseX, mouseY, 50, 75);
-
-//   hit = collideRectRect(200, 200, 100, 150, mouseX, mouseY, 50, 75);
-
-//   if (hit) {
-//     theColor = "red";
-//   }
-//   else {
-//     theColor = "black";
-//   }
-//   stroke(theColor);
-//   print("colliding?", hit);
 }
 
 function movingKeys() { //character moving with keys
@@ -201,13 +223,16 @@ function movingKeys() { //character moving with keys
 }
 
 
-function fallingCorgis() { // CREDIT TO BEN S., makes the corgis fall
+function fallingCorgis() { // CREDIT TO BEN S., modified by me, makes the corgis fall
   y+=5;
   for (let i = corgieXArray.length; i > 0; i --){
-    let corgiex = corgieXArray[i-1];
-    let corgiey = y-corgieYArray[i-1]-100;
-    image(corgie,corgiex,corgiey,50,50);
-    if (y-corgieYArray[i-1]-100> windowHeight){
+    corgiex = corgieXArray[i-1];
+    corgiey = y-corgieYArray[i-1]-100;
+    fill(0,0);
+    noStroke();
+    rect(corgiex, corgiey, 75, 75);
+    image(corgie,corgiex,corgiey,75,75);
+    if (y-corgieYArray[i-1]-100> windowHeight*0.8){
       corgieXArray=corgieXArray.slice(1);
       corgieYArray=corgieYArray.slice(1);
     }
@@ -217,5 +242,20 @@ function fallingCorgis() { // CREDIT TO BEN S., makes the corgis fall
 
 function randomCorgie() { // CREDIT TO BEN S., creates corgis in the array
   corgieXArray.push(random(0,windowWidth));
-  corgieYArray.push(y-40);
+  corgieYArray.push(y-40); 
+}
+
+function catchCorgie(){
+  hit = collideRectRect(corgiex, corgiey, 75, 75, pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
+  
+  if (hit){
+    corgieXArray=corgieXArray.slice(1);
+    corgieYArray=corgieYArray.slice(1);
+    score++;
+    bark.play();
+  }
+}
+
+function endScreen() {
+  image(balmoral, 0, 0, windowWidth, windowHeight);
 }
