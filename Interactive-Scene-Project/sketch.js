@@ -3,7 +3,7 @@
 // Sept. 21st, 2022
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - Experimenting with sounds and playing them during events
 
 // setting up all variables
 let palace, sandringham, westminister, interior, windsor, balmoral, q1, q2, q3, q4, corgie, place, queen, r, g, b, parts, pos, passedTime, countedTime, someTime, corgiex, corgiey;
@@ -30,15 +30,19 @@ function preload() { // loading images
   q4 = loadImage("qscot-4.png");
   corgie = loadImage("qcorgs.png");
   bark = loadSound("bark.mp3");
+  anthem = loadSound("god-save-the-queen.mp3")
 }
 
 
 function setup() {
+  countedTime = millis() - passedTime;
   someTime = random(200, 1500);
   pos = windowWidth/2;
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
+  anthem.setVolume(2);
+  anthem.loop();
 }
 
 function draw() {
@@ -140,7 +144,7 @@ function scoreCount(){
 
 
 function imageStates() { //backround and charater images change after certain age/time
-  countedTime = millis() - passedTime;
+  
   if (int(countedTime/1000) <= 25){
     queen = q1;
     place = sandringham;
@@ -195,8 +199,7 @@ function gameScreen() {
   fill (parts[2], parts[3], parts[4]);
   rect(0, windowHeight*0.9, windowWidth, windowHeight*0.1);
 
-  //corgis falling after some time
-  countedTime = millis() - passedTime;
+  //corgis falling after some random time
   if (countedTime > someTime){
     randomCorgie();
     someTime = countedTime + random(200, 1500);
@@ -245,7 +248,7 @@ function randomCorgie() { // CREDIT TO BEN S., creates corgis in the array
   corgieYArray.push(y-40); 
 }
 
-function catchCorgie(){
+function catchCorgie(){ //gets rid of corgie, adds score, plays bark
   hit = collideRectRect(corgiex, corgiey, 75, 75, pos, windowHeight*0.9 - q1.height*scalar, q1.width*scalar, q1.height*scalar);
   
   if (hit){
@@ -256,6 +259,17 @@ function catchCorgie(){
   }
 }
 
-function endScreen() {
+function endScreen() { // end screen page
+  bark.play();
+  textAlign(CENTER, CENTER);
   image(balmoral, 0, 0, windowWidth, windowHeight);
+  fill(0, 200);
+  rect(windowWidth/8, windowHeight/6, (windowWidth/8)*6, (windowHeight/6)*4 );
+  fill(0)
+  textSize(50);
+  text("The Queen is dead! Long live the King!", windowWidth/2, windowHeight/3);
+  fill("red");
+  textSize(30);
+  text("You have collected " + score + " Corgies!", windowWidth/2, windowHeight/2);
+  text("Refresh the page to try again.", windowWidth/2, windowHeight*0.66);
 }
