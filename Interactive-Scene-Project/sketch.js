@@ -260,7 +260,6 @@ function catchCorgie(){ //gets rid of corgie, adds score, plays bark
 }
 
 function endScreen() { // end screen page
-  bark.play();
   textAlign(CENTER, CENTER);
   image(balmoral, 0, 0, windowWidth, windowHeight);
   fill(0, 200);
