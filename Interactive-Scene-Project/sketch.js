@@ -6,7 +6,7 @@
 // - Experimenting with sounds and playing them during events
 
 // setting up all variables
-let palace, sandringham, westminister, interior, windsor, balmoral, q1, q2, q3, q4, corgie, place, queen, r, g, b, parts, pos, passedTime, countedTime, someTime, corgiex, corgiey;
+let palace, sandringham, westminister, interior, windsor, balmoral, q1, q2, q3, q4, corgie, place, queen, r, g, b, parts, pos, passedTime, countedTime, someTime, corgiex, corgiey, bark, anthem;
 let state = "menu";
 let scalar = 0.75;
 let imgSpeed = 7;
@@ -30,7 +30,7 @@ function preload() { // loading images
   q4 = loadImage("qscot-4.png");
   corgie = loadImage("qcorgs.png");
   bark = loadSound("bark.mp3");
-  anthem = loadSound("god-save-the-queen.mp3")
+  anthem = loadSound("god-save-the-queen.mp3");
 }
 
 
@@ -263,8 +263,8 @@ function endScreen() { // end screen page
   textAlign(CENTER, CENTER);
   image(balmoral, 0, 0, windowWidth, windowHeight);
   fill(0, 200);
-  rect(windowWidth/8, windowHeight/6, (windowWidth/8)*6, (windowHeight/6)*4 );
-  fill(0)
+  rect(windowWidth/8, windowHeight/6, windowWidth/8*6, windowHeight/6*4 );
+  fill(0);
   textSize(50);
   text("The Queen is dead! Long live the King!", windowWidth/2, windowHeight/3);
   fill("red");
