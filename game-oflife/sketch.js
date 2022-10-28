@@ -7,6 +7,12 @@ let COLUMNS = 40;
 let grid;
 let cellWidth;
 let cellHeight;
+let autoPlay = false;
+let ggun;
+
+function preload() {
+  ggun = loadJSON("gosper.json");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -17,8 +23,13 @@ function setup() {
 
 function draw() {
   background(220);
+  if (autoPlay && frameCount % 3 === 0) {
+    grid = takeTurn(grid);
+  } 
   displayGrid(grid);
 }
+ 
+  
 
 function keyPressed() {
   if (key === "e") {
@@ -26,6 +37,12 @@ function keyPressed() {
   }
   if (key === " ") {
     grid = takeTurn(grid);
+  }
+  if (key === "a") {
+    autoPlay = ! autoPlay;
+  }
+  if (key === "g") {
+    grid = ggun;
   }
 }
 
