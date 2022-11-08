@@ -9,14 +9,14 @@ let cellWidth;
 let cellHeight;
 let playerX = 0;
 let playerY = 0;
-let stone;
-let grass;
-let charac;
+let stoneImg;
+let grassImg;
+let wolfImg;
 
 function preload() {
-  stone = loadImage("stone-wall.png");
-  grass = loadImage("paving.png");
-  charac = loadImage("king.gif");
+  stoneImg = loadImage("stone.png");
+  grassImg = loadImage("grass.png");
+  wolfImg = loadImage("howl.png");
 }
 
 function setup() {
@@ -103,16 +103,18 @@ function displayGrid(grid) {
   for (let y=0; y<ROWS; y++) {
     for (let x=0; x<COLS; x++) {
       if (grid[y][x] === 0) {
-        //fill("white");
-        image(grass, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        // fill("white");
+        image(grassImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 1) {
-        //fill("black");
-        image(stone, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        // fill("black");
+        image(stoneImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 9) {
-        //fill("red");
-        image(charac, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        // fill("red");
+        // rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        image(grassImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+        image(wolfImg, x*cellWidth, y*cellHeight, cellWidth, cellHeight);
       }
     }
   }
@@ -144,4 +146,3 @@ function createRandom2dArray(COLS, ROWS) {
   }
   return emptyArray;
 }
-
