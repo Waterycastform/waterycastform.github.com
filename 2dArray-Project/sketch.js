@@ -5,20 +5,21 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-const ROWS = 50;
-const COLUMNS = 50;
+const ROWS = 10;
+const COLUMNS = 10;
 let grid;
 let cellWidth;
 let cellHeight;
-let playerX = 0;
-let playerY = 0;
+let current;
+let visited;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = createRandom2dArray();
   cellWidth = width/COLUMNS;
   cellHeight = height/ROWS;
-  grid[playerX][playerY] = 2;
+  current = grid[0][0];
+  console.log(current);
 }
 
 function draw() {
@@ -26,73 +27,31 @@ function draw() {
   displayGrid();
 }
 
-function keyPressed() {
-  if (keyCode === RIGHT_ARROW) {
-    if (grid[playerY][playerX+1] === 0) {
-      //reset old location to white
-      grid[playerY][playerX] = 0;
-      
-      //move
-      playerX++;
-
-      //set new player location
-      grid[playerY][playerX] = 2;
-    }
-  }
-
-  if (keyCode === LEFT_ARROW) {
-    if (grid[playerY][playerX-1] === 0) {
-      //reset old location to white
-      grid[playerY][playerX] = 0;
-      
-      //move
-      playerX--;
-
-      //set new player location
-      grid[playerY][playerX] = 2;
-    }
-  }
-
-  if (keyCode === UP_ARROW) {
-    if (grid[playerY-1][playerX] === 0) {
-      //reset old location to white
-      grid[playerY][playerX] = 0;
-      
-      //move
-      playerY--;
-
-      //set new player location
-      grid[playerY][playerX] = 2;
-    }
-  }
-
-  if (keyCode === DOWN_ARROW) {
-    if (grid[playerY+1][playerX] === 0) {
-      //reset old location to white
-      grid[playerY][playerX] = 0;
-      
-      //move
-      playerY++;
-
-      //set new player location
-      grid[playerY][playerX] = 2;
-    }
-  }
-}
 
 function displayGrid() {
-  for (let y = 0; y < ROWS; y++) {
-    for (let x = 0; x < COLUMNS; x++) {
-      if (grid[y][x] === 0) {
-        fill ("white");
+  walls = [true, true, true, true];
+  
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
+      if (walls[0]){
+        line(x*cellWidth, y*cellHeight, x*cellWidth + cellWidth, y*cellHeight);
       }
-      else if (grid[y][x] === 2){
-        fill ("red");
+      if (walls[1]){
+        line(x*cellWidth + cellWidth, y*cellHeight, x*cellWidth + cellWidth, y*cellHeight + cellHeight);
       }
-      noStroke();
-      rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+      if (walls[2]){
+        line(x*cellWidth + cellWidth, y*cellHeight + cellHeight, x*cellWidth, y*cellHeight + cellHeight);
+      }
+      if (walls[3]){
+        line(x*cellWidth, y*cellHeight + cellHeight, x*cellWidth, y*cellHeight);
+      }
+      if (grid[y][x] === current) {
+        fill("red");
+        rect(x*windowWidth, y*windowHeight, windowWidth, windowHeight);
+      }
     }
   }
+  
 }
 
 function createRandom2dArray() {
@@ -100,7 +59,7 @@ function createRandom2dArray() {
   for (let y = 0; y < ROWS; y++) {
     emptyArray.push([]);
     for (let x = 0; x < COLUMNS; x++) {
-      emptyArray[y].push(0);
+      emptyArray[y].push(x);
     }
   }
   return emptyArray;
