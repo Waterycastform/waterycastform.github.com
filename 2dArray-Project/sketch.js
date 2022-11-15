@@ -5,63 +5,110 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-const ROWS = 10;
-const COLUMNS = 10;
-let grid;
-let cellWidth;
-let cellHeight;
+let cols, rows;
+let w = 40;
+let grid = []
 let current;
-let visited;
+
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  grid = createRandom2dArray();
-  cellWidth = width/COLUMNS;
-  cellHeight = height/ROWS;
+  createCanvas(400, 400);
+  cols = floor(width/w);
+  rows = floor(height/w);
+
+  createMazeGrid();
+  console.log(grid);
+
   current = grid[0][0];
-  console.log(current);
 }
 
 function draw() {
   background(220);
   displayGrid();
+
+  current.visited = true;
+  current.checkNeighbours();
+  console.log(neighbours);
 }
 
+
+// creating cell class
+class Cell {
+  constructor(i, j){
+    this.i = i;
+    this.j = j;
+    this.walls = [true, true, true, true];
+    this.visited = false;
+  }
+
+  show() {
+    let x = this.i*w;
+    let y = this.j*w;
+
+    // top wall
+    if (this.walls[0]){
+      line(x, y, x+w, y);
+    }
+
+    //right wall
+    if (this.walls[1]){
+      line(x+w, y, x+w, y+w);
+    }
+
+    //bottom wall
+    if (this.walls[2]){
+      line(x+w, y+w, x, y+w);
+    }
+
+    //left wall
+    if (this.walls[3]){
+      line(x, y+w, x, y);
+    }
+    
+    if (this.visited) {
+      fill(255, 0, 0, 100);
+      rect(x, y, w, w);
+    }
+  }
+
+checkNeighbours() {
+  let neighbours = [];
+
+  let top = grid[i][j-1];
+  let right = grid[i+1][j];
+  let bottom = grid[i][j+1];
+  let left = grid[i=1][j];
+
+  if (top && !top.visited) {
+    neighbours.push(top);
+    } 
+  if (right && !right.visited) {
+    neighbours.push(right);
+    } 
+  if (bottom && !bottom.visited) {
+    neighbours.push(bottom);
+    } 
+  if (left && !left.visited) {
+    neighbours.push(left);
+   } 
+
+  }
+}
 
 function displayGrid() {
-  walls = [true, true, true, true];
-  
-  for (let y = 0; y < grid.length; y++) {
-    for (let x = 0; x < grid[y].length; x++) {
-      if (walls[0]){
-        line(x*cellWidth, y*cellHeight, x*cellWidth + cellWidth, y*cellHeight);
-      }
-      if (walls[1]){
-        line(x*cellWidth + cellWidth, y*cellHeight, x*cellWidth + cellWidth, y*cellHeight + cellHeight);
-      }
-      if (walls[2]){
-        line(x*cellWidth + cellWidth, y*cellHeight + cellHeight, x*cellWidth, y*cellHeight + cellHeight);
-      }
-      if (walls[3]){
-        line(x*cellWidth, y*cellHeight + cellHeight, x*cellWidth, y*cellHeight);
-      }
-      if (grid[y][x] === current) {
-        fill("red");
-        rect(x*windowWidth, y*windowHeight, windowWidth, windowHeight);
-      }
+  for (let j = 0; j < grid.length; j++) {
+    for (let i = 0; i < grid[j].length; i++ ) {
+      grid[j][i].show();
     }
   }
-  
 }
 
-function createRandom2dArray() {
-  let emptyArray = [];
-  for (let y = 0; y < ROWS; y++) {
-    emptyArray.push([]);
-    for (let x = 0; x < COLUMNS; x++) {
-      emptyArray[y].push(x);
+function createMazeGrid() {
+  for (let j = 0; j < rows; j++) {
+    grid.push([]);
+    for (let i = 0; i < cols; i++){
+      let cell = new Cell(i, j);
+      grid[j].push(cell);
     }
   }
-  return emptyArray;
 }
-  
