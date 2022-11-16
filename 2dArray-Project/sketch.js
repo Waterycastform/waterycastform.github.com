@@ -3,7 +3,8 @@
 // Oct 31st, 2022
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - Use of OOP to create individual cell objects
+// - Using a maze alogrythm (depth first-search, recursive backtracking)
 
 let cols, rows;
 let cellWidth = 25;
@@ -25,12 +26,12 @@ function setup() {
 
 function draw() {
   background(220);
+  titleText();
   displayGrid();
 
   current.visited = true;
 
   goNextCell();
-  
 }
 
 
@@ -45,7 +46,7 @@ class Cell {
 
   show() {
     let x = (width/2) - (mazeSize/2) + (this.i*cellWidth);
-    let y = 200 + (this.j*cellWidth);
+    let y = (height/1.2) - (mazeSize/1.2) + (this.j*cellWidth);
 
     // top wall
     if (this.walls[0]){
@@ -177,4 +178,10 @@ function removeWalls(a, b) {
     b.walls[0] = false;
   }
 
+}
+
+function titleText() {
+  textAlign(CENTER, CENTER);
+  textSize(50);
+  text("Random Maze Generator", windowWidth/2, windowHeight/5);
 }
