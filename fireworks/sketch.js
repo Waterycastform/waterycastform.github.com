@@ -8,7 +8,7 @@ class Particle {
     this.y = y;
     this.dx = random(-5, 5);
     this.dy = random(-5, 5);
-    this.diameter = 2;
+    this.diameter = 5;
     this.r = random(255);
     this.g = random(255);
     this.b = random(255);
@@ -19,6 +19,7 @@ class Particle {
   update() {
     this.x += this.dx;
     this.y += this.dy;
+
     this.alpha--;
     this.color = color(this.r, this.g, this.b, this.alpha);
   }
@@ -28,6 +29,11 @@ class Particle {
     stroke(this.color);
     circle(this.x, this.y, this.diameter);
   }
+
+  isDead() {
+    return this.alpha <= 0;
+  }
+
 }
 
 let theFireworks = [];
@@ -40,7 +46,14 @@ function draw() {
   background(0);
   for (let i = 0; i < theFireworks.length; i++) {
     theFireworks[i].update();
-    theFireworks[i].display();
+    if (theFireworks[i].isDead()) {
+      theFireworks.splice(i, 1);
+    }
+
+    else {
+      theFireworks[i].display();
+    }
+    
   }
 }
 

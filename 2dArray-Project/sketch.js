@@ -13,6 +13,7 @@ let current;
 let grid;
 let neighbour;
 let stack = [];
+let mazeDone = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -47,7 +48,7 @@ class Cell {
   show() {
     let x = width/2 - mazeSize/2 + this.i*cellWidth;
     let y = height/1.2 - mazeSize/1.2 + this.j*cellWidth;
-
+    stroke("black");
     // top wall
     if (this.walls[0]){
       line(x, y, x+cellWidth, y);
@@ -67,7 +68,13 @@ class Cell {
     if (this.walls[3]){
       line(x, y+cellWidth, x, y);
     }
-    
+
+    if (this.visited) {
+      noStroke();
+      fill(255, 0, 0, 50);
+      rect(x, y, cellWidth, cellWidth,);
+    }
+  
   }
 
   checkNeighbours() {
@@ -106,7 +113,6 @@ class Cell {
     if (left && !left.visited) {
       neighbours.push(left);
     } 
-
     if (neighbours.length > 0) {
       let nextMove = floor(random(0, neighbours.length));
       return neighbours[nextMove];
@@ -115,7 +121,6 @@ class Cell {
     else {
       return undefined;
     }
-
   }
 }
 
@@ -146,11 +151,14 @@ function goNextCell() {
     stack.push(current);
     removeWalls(current, neighbour);
     current = neighbour;
-
   }
 
   else if (stack.length > 0) {
     current = stack.pop();
+  }
+
+  else {
+    mazeDone = true;
   }
 }
 
@@ -181,7 +189,16 @@ function removeWalls(a, b) {
 }
 
 function titleText() {
-  textAlign(CENTER, CENTER);
-  textSize(50);
-  text("Random Maze Generator", windowWidth/2, windowHeight/5);
+  if  (!mazeDone) {
+    textAlign(CENTER, CENTER);
+    textSize(50);
+    fill("black");
+    text("Random Maze Generator", windowWidth/2, windowHeight/5); 
+  }
+  
+  else if (mazeDone) {
+    textSize(70);
+    fill("green");
+    text("Done!", windowWidth/2, windowHeight/5);
+  }
 }
