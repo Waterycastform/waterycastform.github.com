@@ -8,7 +8,7 @@
 
 let cols, rows;
 let cellWidth = 25;
-let mazeSize = 500
+let mazeSize = 500;
 let current;
 let grid;
 let neighbour;
@@ -45,8 +45,8 @@ class Cell {
   }
 
   show() {
-    let x = (width/2) - (mazeSize/2) + (this.i*cellWidth);
-    let y = (height/1.2) - (mazeSize/1.2) + (this.j*cellWidth);
+    let x = width/2 - mazeSize/2 + this.i*cellWidth;
+    let y = height/1.2 - mazeSize/1.2 + this.j*cellWidth;
 
     // top wall
     if (this.walls[0]){
@@ -70,51 +70,51 @@ class Cell {
     
   }
 
-checkNeighbours() {
-  let neighbours = [];
-  let top;
-  let right;
-  let bottom;
-  let left;
+  checkNeighbours() {
+    let neighbours = [];
+    let top;
+    let right;
+    let bottom;
+    let left;
 
-  if (this.j - 1 >= 0) {
-    top = grid[this.i][this.j-1];
-  }
+    if (this.j - 1 >= 0) {
+      top = grid[this.i][this.j-1];
+    }
   
-  if (this.i + 1 <= cols - 1) {
-    right = grid[this.i+1][this.j];
-  }
+    if (this.i + 1 <= cols - 1) {
+      right = grid[this.i+1][this.j];
+    }
   
-  if (this.j + 1 <= rows - 1) {
-    bottom = grid[this.i][this.j+1];
-  }
+    if (this.j + 1 <= rows - 1) {
+      bottom = grid[this.i][this.j+1];
+    }
   
-  if (this.i - 1 >= 0) {
-    left = grid[this.i-1][this.j];
-  }
+    if (this.i - 1 >= 0) {
+      left = grid[this.i-1][this.j];
+    }
   
 
-  if (top && !top.visited) {
-    neighbours.push(top);
+    if (top && !top.visited) {
+      neighbours.push(top);
     } 
-  if (right && !right.visited) {
-    neighbours.push(right);
+    if (right && !right.visited) {
+      neighbours.push(right);
     } 
-  if (bottom && !bottom.visited) {
-    neighbours.push(bottom);
+    if (bottom && !bottom.visited) {
+      neighbours.push(bottom);
     } 
-  if (left && !left.visited) {
-    neighbours.push(left);
-   } 
+    if (left && !left.visited) {
+      neighbours.push(left);
+    } 
 
-  if (neighbours.length > 0) {
-    let nextMove = floor(random(0, neighbours.length));
-    return neighbours[nextMove];
-  }
+    if (neighbours.length > 0) {
+      let nextMove = floor(random(0, neighbours.length));
+      return neighbours[nextMove];
+    }
 
-  else {
-    return undefined;
-  }
+    else {
+      return undefined;
+    }
 
   }
 }
@@ -128,7 +128,7 @@ function displayGrid() {
 }
 
 function createMazeGrid() {
-  grid = []
+  grid = [];
   for (let j = 0; j < rows; j++) {
     grid.push([]);
     for (let i = 0; i < cols; i++){
