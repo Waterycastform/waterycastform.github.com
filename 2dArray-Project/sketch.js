@@ -175,7 +175,7 @@ function createMazeArray() {
 
 function goNextCell() {
   // setting neighbour to chosen neighbour
-  chosenNeighbour = current.checkNeighbours();
+  let chosenNeighbour = current.checkNeighbours();
   if (chosenNeighbour) {
     // setting neighbour to next current, removing walls between current and neighbour
     chosenNeighbour.visited = true;
