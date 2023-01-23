@@ -42,6 +42,7 @@ function setup() {
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
   anthem.setVolume(2);
+  bounce.setVolume(1);
   anthem.loop();
 }
 
